@@ -9,8 +9,9 @@ async function fetchUsers(skip: number, limit: number) {
   return response.json();
 }
 
-export default async function Page({ searchParams}: { searchParams?: { [key: string]: string }; }) {
-  const page = parseInt(searchParams?.page || "1");
+export default async function Page(props: { searchParams?: Promise<{ [key: string]: string }>; }) {
+  const searchParams = await props.searchParams;
+  const page = parseInt(searchParams?.page || "1", 10);
   const limit = 10;
   const skip = (page - 1) * limit;
 
